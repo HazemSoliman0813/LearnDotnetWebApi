@@ -1,4 +1,5 @@
 using api.Data;
+using LearnDotnetWebApi.Mappers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,14 +14,14 @@ public class StockController(ApplicationDbContext context) : ControllerBase
     [HttpGet]
     public IActionResult GetAll()
     {
-        var stocks = _context.Stocks.AsNoTracking().ToList();
+        var stocks = _context.Stocks.AsNoTracking().Select(s => s.ToStockDto()).ToList();
         return Ok(stocks);
     }
 
     [HttpGet("{id:int}")]
     public IActionResult GetById([FromRoute] int id)
     {
-        var stock = _context.Stocks.Find(id);
+        var stock = _context.Stocks.Find(id)?.ToStockDto();
         if (stock == null)
         {
             return NotFound();
