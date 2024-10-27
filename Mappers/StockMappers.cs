@@ -1,21 +1,33 @@
+using api.Dtos.Stock;
 using api.Models;
-using LearnDotnetWebApi.Dtos.Stock;
 
-namespace LearnDotnetWebApi.Mappers
+namespace api.Mappers
 {
     public static class StockMappers
     {
-        public static StockDto ToStockDto(this Stock StockModel)
+        public static StockDto ToStockDto(this Stock stockModel)
         {
           return new StockDto {
-            Id = StockModel.Id,
-            Symbol = StockModel.Symbol,
-            CompanyName = StockModel.CompanyName,
-            Purchase = StockModel.Purchase,
-            LastDiv = StockModel.LastDiv,
-            Industry = StockModel.Industry,
-            MarketCap = StockModel.MarketCap
+            Id = stockModel.Id,
+            Symbol = stockModel.Symbol,
+            CompanyName = stockModel.CompanyName,
+            Purchase = stockModel.Purchase,
+            LastDiv = stockModel.LastDiv,
+            Industry = stockModel.Industry,
+            MarketCap = stockModel.MarketCap
           };
+        }
+        
+        public static Stock ToStockfromCreate(this CreateStockDto stockDto)
+        {
+            return new Stock {
+                Symbol = stockDto.Symbol,
+                CompanyName = stockDto.CompanyName,
+                Purchase = stockDto.Purchase,
+                LastDiv = stockDto.LastDiv,
+                Industry = stockDto.Industry,
+                MarketCap = stockDto.MarketCap
+            };
         }
     }
 }
