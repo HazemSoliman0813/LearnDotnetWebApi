@@ -36,4 +36,30 @@ public class StockController(ApplicationDbContext context) : ControllerBase
         context.SaveChanges();
         return CreatedAtAction(nameof(GetById), new { id = stockModel.Id }, stockModel.ToStockDto());
     }
+    
+    [HttpPut("{id:int}")]
+    public IActionResult Update([FromRoute] int id, [FromBody] UpdatedStockDto stockDto)
+    {
+        var stockModel = context.Stocks.Find(id);
+        if (stockModel == null)
+        {
+            return NotFound();
+        }
+        context.Entry(stockModel).CurrentValues.SetValues(stockDto);
+        context.SaveChanges();
+        return Ok(stockModel.ToStockDto());
+    }
+
+    [HttpDelete("{id:int}")]
+    public IActionResult Delete([FromRoute] int id)
+    {
+        var stockmodel = context.Stocks.Find(id);
+        if (stockmodel == null)
+        {
+            return NotFound();
+        }
+        context.Stocks.Remove(stockmodel);
+        context.SaveChanges();
+        return NoContent();
+    }
 }
